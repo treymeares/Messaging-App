@@ -12,6 +12,8 @@ import GoogleSignIn
 
 class LoginViewController: UIViewController {
     
+    let signInConfig = GIDConfiguration.init(clientID: "com.googleusercontent.apps.162640757087-tm2jdgna11cfpvd2n11lugb821t0bf9o")
+    
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.clipsToBounds = true
@@ -72,24 +74,23 @@ class LoginViewController: UIViewController {
     
     private let facebookLoginButton: FBLoginButton = {
         let button = FBLoginButton()
-//        button.permissions = ["email, public_profile"]
+        button.permissions = ["public_profile", "email"]
         button.layer.cornerRadius = 6
         button.layer.masksToBounds = true
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
         return button
     }()
-    private let googleLoginButton = GIDSignInButton()
+    private let googleLoginButton: GIDSignInButton = {
 //    {
+        let button = GIDSignInButton()
 //        button.permissions = ["email, public_profile"]
 //        button.layer.cornerRadius = 6
 //        button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
-//        return button
-//    }()
+        return button
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        let signInConfig = GIDConfiguration.init(clientID: "com.googleusercontent.apps.162640757087-tm2jdgna11cfpvd2n11lugb821t0bf9o")
-//        GIDSignIn.sharedInstance.signIn(with: signInConfig, presenting: self)
 
 //        GIDSignIn.sharedInstance.presentingViewController = self
         view.backgroundColor = .white
@@ -163,6 +164,14 @@ class LoginViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "Try Again", style: .cancel, handler: nil))
         present(alert, animated: true)
     }
+    
+    func signIn(sender: Any) {
+      GIDSignIn.sharedInstance.signIn(with: signInConfig, presenting: self) { user, error in
+        guard error == nil else { return }
+
+        // If sign in succeeded, display the app's main content View.
+      }
+    }
 }
     
 extension LoginViewController: UITextFieldDelegate {
@@ -190,7 +199,7 @@ extension LoginViewController: LoginButtonDelegate {
             return
         }
         
-        let facebookRequest = FBSDKLoginKit.GraphRequest(graphPath: "me",parameters: ["/me?fields": "data.email, name"],tokenString: token,version: nil, httpMethod: .get)
+        let facebookRequest = FBSDKLoginKit.GraphRequest(graphPath: "me",parameters: ["fields": "email, name"],tokenString: token,version: nil, httpMethod: .get)
         
         facebookRequest.start(completion: { _, result, error in
             guard let result = result as? [String:Any], error == nil else{
@@ -233,6 +242,7 @@ extension LoginViewController: LoginButtonDelegate {
             strongSelf.navigationController?.dismiss(animated: true, completion: nil)
             
         })
+        
     }
     
     

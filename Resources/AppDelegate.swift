@@ -32,39 +32,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         
         return true
     }
-//    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!){
-//    guard error == nil else {
-//        if let error = error {
-//            print("failed to sign in with Google")
-//        }
-//        return
-//        }
-//        guard let authen = user.authentication else {return }
-//        let cred = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
-//    }
-    
+
     func application(
                 _ app: UIApplication,
                 open url: URL,
                 options: [UIApplication.OpenURLOptionsKey : Any] = [:]
             ) -> Bool {
+                let isHandledByGoogleSignInSDK = GIDSignIn.sharedInstance.handle(url)
 
-            let urlString = url.absoluteString
-            if urlString.contains("fb"){
-                ApplicationDelegate.shared.application(
-                    app,
-                    open: url,
-                    sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
-                    annotation: options[UIApplication.OpenURLOptionsKey.annotation]
-                )
-            }
-            else{
+                  let sourceApplication = options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String
+                  let annotation = options[UIApplication.OpenURLOptionsKey.annotation]
+                  let isHandledByFacebookSignInSDK = ApplicationDelegate.shared.application(app, open: url, sourceApplication: sourceApplication, annotation: annotation)
+                  
+                  return isHandledByGoogleSignInSDK ||  isHandledByFacebookSignInSDK
+                }
 
-            }
-                return GIDSignIn.sharedInstance.handle(url)
-            }
-    
+
 }
-
-
-

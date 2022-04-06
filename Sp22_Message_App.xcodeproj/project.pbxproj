@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B50205B27FDD0E30029BDAD /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2B50205A27FDD0E30029BDAD /* MessageKit */; };
+		2B50205E27FDD0FD0029BDAD /* JGProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 2B50205D27FDD0FD0029BDAD /* JGProgressHUD */; };
 		2B9A787327FB525F00080B17 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9A787227FB525F00080B17 /* AppDelegate.swift */; };
 		2B9A787527FB525F00080B17 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9A787427FB525F00080B17 /* SceneDelegate.swift */; };
 		2B9A787727FB525F00080B17 /* ConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9A787627FB525F00080B17 /* ConversationsViewController.swift */; };
@@ -55,8 +57,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				2BCB9FC427FD0B87000299DC /* GoogleSignIn in Frameworks */,
+				2B50205E27FDD0FD0029BDAD /* JGProgressHUD in Frameworks */,
 				2BA7F18827FB8B6000E65F7A /* FirebaseDatabase in Frameworks */,
 				2BCB9FC127FCE943000299DC /* GoogleSignIn in Frameworks */,
+				2B50205B27FDD0E30029BDAD /* MessageKit in Frameworks */,
 				2BA7F18627FB8B6000E65F7A /* FirebaseAuth in Frameworks */,
 				2BCB9FBE27FC9476000299DC /* FacebookLogin in Frameworks */,
 			);
@@ -182,6 +186,8 @@
 				2BCB9FBD27FC9476000299DC /* FacebookLogin */,
 				2BCB9FC027FCE943000299DC /* GoogleSignIn */,
 				2BCB9FC327FD0B87000299DC /* GoogleSignIn */,
+				2B50205A27FDD0E30029BDAD /* MessageKit */,
+				2B50205D27FDD0FD0029BDAD /* JGProgressHUD */,
 			);
 			productName = Sp22_Message_App;
 			productReference = 2B9A786F27FB525F00080B17 /* Sp22_Message_App.app */;
@@ -217,6 +223,8 @@
 				2BCB9FBC27FC9476000299DC /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
 				2BCB9FBF27FCE943000299DC /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				2BCB9FC227FD0B87000299DC /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				2B50205927FDD0E30029BDAD /* XCRemoteSwiftPackageReference "MessageKit" */,
+				2B50205C27FDD0FD0029BDAD /* XCRemoteSwiftPackageReference "JGProgressHUD" */,
 			);
 			productRefGroup = 2B9A787027FB525F00080B17 /* Products */;
 			projectDirPath = "";
@@ -482,6 +490,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		2B50205927FDD0E30029BDAD /* XCRemoteSwiftPackageReference "MessageKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MessageKit/MessageKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
+		2B50205C27FDD0FD0029BDAD /* XCRemoteSwiftPackageReference "JGProgressHUD" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/JonasGessner/JGProgressHUD";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 		2BA7F18427FB8B6000E65F7A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -525,6 +549,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		2B50205A27FDD0E30029BDAD /* MessageKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2B50205927FDD0E30029BDAD /* XCRemoteSwiftPackageReference "MessageKit" */;
+			productName = MessageKit;
+		};
+		2B50205D27FDD0FD0029BDAD /* JGProgressHUD */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2B50205C27FDD0FD0029BDAD /* XCRemoteSwiftPackageReference "JGProgressHUD" */;
+			productName = JGProgressHUD;
+		};
 		2BA7F18527FB8B6000E65F7A /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2BA7F18427FB8B6000E65F7A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
