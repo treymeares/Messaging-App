@@ -25,6 +25,8 @@
 		2BA7F18A27FB8D0700E65F7A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2BA7F18927FB8D0700E65F7A /* GoogleService-Info.plist */; };
 		2BA7F18C27FBC0FA00E65F7A /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BA7F18B27FBC0FA00E65F7A /* DatabaseManager.swift */; };
 		2BCB9FBE27FC9476000299DC /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 2BCB9FBD27FC9476000299DC /* FacebookLogin */; };
+		2BCB9FC127FCE943000299DC /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 2BCB9FC027FCE943000299DC /* GoogleSignIn */; };
+		2BCB9FC427FD0B87000299DC /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 2BCB9FC327FD0B87000299DC /* GoogleSignIn */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,7 +54,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2BCB9FC427FD0B87000299DC /* GoogleSignIn in Frameworks */,
 				2BA7F18827FB8B6000E65F7A /* FirebaseDatabase in Frameworks */,
+				2BCB9FC127FCE943000299DC /* GoogleSignIn in Frameworks */,
 				2BA7F18627FB8B6000E65F7A /* FirebaseAuth in Frameworks */,
 				2BCB9FBE27FC9476000299DC /* FacebookLogin in Frameworks */,
 			);
@@ -176,6 +180,8 @@
 				2BA7F18527FB8B6000E65F7A /* FirebaseAuth */,
 				2BA7F18727FB8B6000E65F7A /* FirebaseDatabase */,
 				2BCB9FBD27FC9476000299DC /* FacebookLogin */,
+				2BCB9FC027FCE943000299DC /* GoogleSignIn */,
+				2BCB9FC327FD0B87000299DC /* GoogleSignIn */,
 			);
 			productName = Sp22_Message_App;
 			productReference = 2B9A786F27FB525F00080B17 /* Sp22_Message_App.app */;
@@ -209,6 +215,8 @@
 				2BA7F18427FB8B6000E65F7A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				2BCB9FBB27FC9444000299DC /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
 				2BCB9FBC27FC9476000299DC /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
+				2BCB9FBF27FCE943000299DC /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				2BCB9FC227FD0B87000299DC /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 			);
 			productRefGroup = 2B9A787027FB525F00080B17 /* Products */;
 			projectDirPath = "";
@@ -398,6 +406,8 @@
 				DEVELOPMENT_TEAM = N89B9T694L;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Sp22_Message_App/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Please Allow Access To Add A Profile Picture";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Please Allow Access To Add A Profile Picture";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -427,6 +437,8 @@
 				DEVELOPMENT_TEAM = N89B9T694L;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Sp22_Message_App/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Please Allow Access To Add A Profile Picture";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Please Allow Access To Add A Profile Picture";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -494,6 +506,22 @@
 				kind = branch;
 			};
 		};
+		2BCB9FBF27FCE943000299DC /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
+		2BCB9FC227FD0B87000299DC /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -511,6 +539,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2BCB9FBC27FC9476000299DC /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
 			productName = FacebookLogin;
+		};
+		2BCB9FC027FCE943000299DC /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2BCB9FBF27FCE943000299DC /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		2BCB9FC327FD0B87000299DC /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2BCB9FC227FD0B87000299DC /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

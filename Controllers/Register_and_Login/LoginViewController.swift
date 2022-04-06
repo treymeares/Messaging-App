@@ -7,7 +7,8 @@
 
 import UIKit
 import FirebaseAuth
-import FacebookLogin
+import FBSDKLoginKit
+import GoogleSignIn
 
 class LoginViewController: UIViewController {
     
@@ -71,20 +72,36 @@ class LoginViewController: UIViewController {
     
     private let facebookLoginButton: FBLoginButton = {
         let button = FBLoginButton()
-        button.permissions = ["email, public_profile"]
+//        button.permissions = ["email, public_profile"]
+        button.layer.cornerRadius = 6
+        button.layer.masksToBounds = true
+        button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
         return button
     }()
+    private let googleLoginButton = GIDSignInButton()
+//    {
+//        button.permissions = ["email, public_profile"]
+//        button.layer.cornerRadius = 6
+//        button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
+//        return button
+//    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        let signInConfig = GIDConfiguration.init(clientID: "com.googleusercontent.apps.162640757087-tm2jdgna11cfpvd2n11lugb821t0bf9o")
+//        GIDSignIn.sharedInstance.signIn(with: signInConfig, presenting: self)
+
+//        GIDSignIn.sharedInstance.presentingViewController = self
         view.backgroundColor = .white
         title = "Login"
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Register", style: .done, target: self, action: #selector(didTapRegister))
         
         loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
+        
         emailField.delegate = self
         password.delegate = self
         facebookLoginButton.delegate = self
+        
         
         //Add Scroll View Subview
         view.addSubview(scrollView)
@@ -93,6 +110,7 @@ class LoginViewController: UIViewController {
         scrollView.addSubview(password)
         scrollView.addSubview(loginButton)
         scrollView.addSubview(facebookLoginButton)
+        scrollView.addSubview(googleLoginButton)
 
         // Do any additional setup after loading the view.
     }
@@ -106,6 +124,7 @@ class LoginViewController: UIViewController {
         password.frame = CGRect(x: 30, y: emailField.bottom+10, width:scrollView.width - 60, height: 52)
         loginButton.frame = CGRect(x: 30, y: password.bottom+10, width:scrollView.width - 60, height: 52)
         facebookLoginButton.frame = CGRect(x: 30, y: loginButton.bottom+10, width:scrollView.width - 60, height: 52)
+        googleLoginButton.frame = CGRect(x: 30, y: facebookLoginButton.bottom+10, width:scrollView.width - 60, height: 52)
     }
     
     @objc private func didTapRegister() {
@@ -146,41 +165,77 @@ class LoginViewController: UIViewController {
     }
 }
     
-    extension LoginViewController: UITextFieldDelegate {
-        
-        func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-            if textField == emailField{
-                password.becomeFirstResponder()
-            }
-            else if textField == password{
-                loginButtonTapped()
-            }
-        return true
+extension LoginViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == emailField{
+            password.becomeFirstResponder()
         }
+        else if textField == password{
+            loginButtonTapped()
+        }
+        return true
     }
+}
 
 extension LoginViewController: LoginButtonDelegate {
+    
     func loginButtonDidLogOut(_ loginButton: FBLoginButton) {
-        //no op
+        //None
     }
+    
     func loginButton(_ loginButton: FBLoginButton, didCompleteWith result: LoginManagerLoginResult?, error: Error?) {
-        guard let token = result?.token?.tokenString else {
-            print("Login with Facebook Failed!")
+        guard let token = result?.token?.tokenString else{
+            print("Failed to login with Facebook")
             return
         }
+        
+        let facebookRequest = FBSDKLoginKit.GraphRequest(graphPath: "me",parameters: ["/me?fields": "data.email, name"],tokenString: token,version: nil, httpMethod: .get)
+        
+        facebookRequest.start(completion: { _, result, error in
+            guard let result = result as? [String:Any], error == nil else{
+                print("Failed to make FB Graph Request")
+                return
+            }
+            print("\(result)")
+        guard let userName = result["name"] as? String,
+              let email = result["email"] as? String else{
+            print("Failed to get name and email from Facebook")
+            return
+        }
+            let nameComponents = userName.components(separatedBy: " ")
+            guard nameComponents.count == 2 else {
+                return
+            }
+            
+            let firstname = nameComponents[0]
+            let lastname = nameComponents[1]
+            
+            DatabaseManager.shared.checkForEmailExists(with: email, completion: { exists in
+                if !exists{
+                    DatabaseManager.shared.insertUser(with: DatabaseManager.ChatAppUser(firstName: firstname, lastName: lastname, emailAddress:email))
+                }
+            })
+        })
+        
         let crediental = FacebookAuthProvider.credential(withAccessToken: token)
-        FirebaseAuth.Auth.auth().signIn(with: crediental, completion: {[weak self] AuthDataResult, error in
+        
+        FirebaseAuth.Auth.auth().signIn(with: crediental, completion: { [weak self] AuthDataResult, error in
+           
             guard let strongSelf = self else{
                 return
             }
-            guard AuthDataResult != nil, error ==  nil else{
-                print("Facebook Credientals Failed, Multifactor Authencation Activated")
+            guard  AuthDataResult != nil, error == nil else {
+                print("Login failed. MFA needed")
                 return
             }
-            print("Logged In With Facebook")
+            print("Successful Login")
             strongSelf.navigationController?.dismiss(animated: true, completion: nil)
+            
         })
     }
+    
+    
 }
 
 
