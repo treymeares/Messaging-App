@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 import FirebaseAuth
 import FBSDKLoginKit
 import GoogleSignIn
@@ -84,10 +85,23 @@ class LoginViewController: UIViewController {
         return button
     }()
     
-    private let googleLoginButton = GIDSignInButton()
+//    private let googleLoginButton: GIDSignInButton = {
+//        let button = GIDSignInButton()
+//
+//        return button
+//    }()
+    
+    func signIn(sender: Any) {
+      GIDSignIn.sharedInstance.signIn(with: signInConfig, presenting: self) { user, error in
+        guard error == nil else { return }
+
+        // If sign in succeeded, display the app's main content View.
+      }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        GIDSignIn.sharedInstance.signIn(with: signInConfig, presenting: self)
 
         
         view.backgroundColor = .white
@@ -110,7 +124,7 @@ class LoginViewController: UIViewController {
         scrollView.addSubview(password)
         scrollView.addSubview(loginButton)
         scrollView.addSubview(facebookLoginButton)
-        scrollView.addSubview(googleLoginButton)
+        //scrollView.addSubview(googleLoginButton)
 
         // Do any additional setup after loading the view.
     }
@@ -124,7 +138,7 @@ class LoginViewController: UIViewController {
         password.frame = CGRect(x: 30, y: emailField.bottom+10, width:scrollView.width - 60, height: 52)
         loginButton.frame = CGRect(x: 30, y: password.bottom+10, width:scrollView.width - 60, height: 52)
         facebookLoginButton.frame = CGRect(x: 30, y: loginButton.bottom+10, width:scrollView.width - 60, height: 52)
-        googleLoginButton.frame = CGRect(x: 30, y: facebookLoginButton.bottom+10, width:scrollView.width - 60, height: 52)
+        //googleLoginButton.frame = CGRect(x: 30, y: facebookLoginButton.bottom+10, width:scrollView.width - 60, height: 52)
     }
     
     @objc private func didTapRegister() {
@@ -158,6 +172,7 @@ class LoginViewController: UIViewController {
                 return
             }
             let user = result.user
+            strongSelf.navigationController?.dismiss(animated: true, completion: nil)
             print("\(user) logged in.")
         })
     }
@@ -238,6 +253,8 @@ extension LoginViewController: LoginButtonDelegate {
             strongSelf.navigationController?.dismiss(animated: true, completion: nil)
             
         })
+        
+        
         
     }
     

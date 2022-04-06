@@ -37,11 +37,25 @@ class ConversationsViewController: UIViewController {
         view.addSubview(noConvoLabel)
         fetchConversations()
         setupTableView()
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(didTapCOmposeButton))
+    }
+    
+    @objc private func didTapCOmposeButton() {
+        let vc = BeginConversationViewController()
+        let navVC = UINavigationController(rootViewController: vc)
+        present(navVC, animated: true)
+        
+        
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         validateAuth()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        tableView.frame = view.bounds
     }
     
     private func validateAuth(){
@@ -62,7 +76,7 @@ class ConversationsViewController: UIViewController {
     }
     
     private func fetchConversations() {
-        //
+        tableView.isHidden = false
     }
     
     
@@ -75,6 +89,7 @@ extension ConversationsViewController: UITableViewDelegate, UITableViewDataSourc
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.textLabel?.text = "Hello World"
+        cell.accessoryType = .disclosureIndicator
         return cell
     }
     
