@@ -9,8 +9,11 @@ import UIKit
 import FirebaseAuth
 import FBSDKLoginKit
 import GoogleSignIn
+import JGProgressHUD
 
 class LoginViewController: UIViewController {
+    
+    private let spinner = JGProgressHUD(style: .dark)
     
     let signInConfig = GIDConfiguration.init(clientID: "com.googleusercontent.apps.162640757087-tm2jdgna11cfpvd2n11lugb821t0bf9o")
     
@@ -80,28 +83,24 @@ class LoginViewController: UIViewController {
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
         return button
     }()
-    private let googleLoginButton: GIDSignInButton = {
-//    {
-        let button = GIDSignInButton()
-//        button.permissions = ["email, public_profile"]
-//        button.layer.cornerRadius = 6
-//        button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
-        return button
-    }()
+    
+    private let googleLoginButton = GIDSignInButton()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-//        GIDSignIn.sharedInstance.presentingViewController = self
+        
         view.backgroundColor = .white
         title = "Login"
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Register", style: .done, target: self, action: #selector(didTapRegister))
         
         loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
         
+        
         emailField.delegate = self
         password.delegate = self
         facebookLoginButton.delegate = self
+        
         
         
         //Add Scroll View Subview
@@ -143,11 +142,15 @@ class LoginViewController: UIViewController {
             alertUserLoginError()
             return
         }
+        spinner.show(in: view)
         
         //FB Login Goes Here
         FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password, completion: {[weak self] AuthDataResult, error in
             guard let strongSelf = self else{
                 return
+            }
+            DispatchQueue.main.async {
+                strongSelf.spinner.dismiss(animated: true)
             }
             guard let result = AuthDataResult, error == nil else{
                 print("Failed to login with email and password: \(email)")
@@ -165,13 +168,6 @@ class LoginViewController: UIViewController {
         present(alert, animated: true)
     }
     
-    func signIn(sender: Any) {
-      GIDSignIn.sharedInstance.signIn(with: signInConfig, presenting: self) { user, error in
-        guard error == nil else { return }
-
-        // If sign in succeeded, display the app's main content View.
-      }
-    }
 }
     
 extension LoginViewController: UITextFieldDelegate {
