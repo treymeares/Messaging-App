@@ -199,6 +199,20 @@ class RegisterViewController: UIViewController {
                 DatabaseManager.shared.insertUser(with: chatUser, completion: {success in
                     if success{
                         //upload image
+                        guard let image = strongSelf.imageView.image, let data = image.pngData() else{
+                            return
+                        }
+                        let filename = chatUser.profilePictureFileName
+                        StorageManager.shared.uploadProfilePic(with: data, fileName: filename, completionHandler: {result in
+                            switch result {
+                            case .success(let downloadUrl):
+                                print(downloadUrl)
+                                UserDefaults.standard.set(downloadUrl, forKey: "profile_picture_url")
+                            case .failure(let error):
+                                print("Storage Manager Error \(error)")
+                            
+                        }
+                        })
                     }
                 
                 })

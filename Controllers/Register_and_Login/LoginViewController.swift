@@ -11,6 +11,7 @@ import FirebaseAuth
 import FBSDKLoginKit
 import GoogleSignIn
 import JGProgressHUD
+import CoreAudio
 
 class LoginViewController: UIViewController {
     
@@ -210,38 +211,57 @@ extension LoginViewController: LoginButtonDelegate {
             return
         }
         
-        let facebookRequest = FBSDKLoginKit.GraphRequest(graphPath: "me",parameters: ["fields": "email, name"],tokenString: token,version: nil, httpMethod: .get)
+        let facebookRequest = FBSDKLoginKit.GraphRequest(graphPath: "me",parameters: ["fields": "email, first_name, last_name, picture.type(large)"],tokenString: token,version: nil, httpMethod: .get)
         
         facebookRequest.start(completion: { _, result, error in
             guard let result = result as? [String:Any], error == nil else{
                 print("Failed to make FB Graph Request")
                 return
             }
-            print("\(result)")
-        guard let userName = result["name"] as? String,
-              let email = result["email"] as? String else{
-            print("Failed to get name and email from Facebook")
-            return
-        }
-            let nameComponents = userName.components(separatedBy: " ")
-            guard nameComponents.count == 2 else {
-                return
-            }
+            print(result)
+
             
-            let firstname = nameComponents[0]
-            let lastname = nameComponents[1]
+        guard let firstName = result["first_name"] as? String,
+              let lastName = result["last_name"] as? String,
+              let email = result["email"] as? String,
+              let picture = result["picture"] as? [String:Any],
+              let data = picture["data"] as? [String:Any],
+              let pictureURL = data["url"] as? String else {
+                print("Failed to get name and email from Facebook")
+                return
+        }
             
             DatabaseManager.shared.checkForEmailExists(with: email, completion: { exists in
                 if !exists{
-                    let chatUser = DatabaseManager.ChatAppUser(firstName: firstname, lastName: lastname, emailAddress:email)
+                    let chatUser = DatabaseManager.ChatAppUser(firstName: firstName, lastName: lastName, emailAddress:email)
                     DatabaseManager.shared.insertUser(with: chatUser, completion: {success in
                         if success{
-                            //upload image
+                            guard let url = URL(string: pictureURL) else {
+                                return
+                            }
+                            print("Downloaded Data From Facebook Image")
+                            URLSession.shared.dataTask(with: url, completionHandler: { data, _, _ in
+                                guard let data = data else{
+                                    print("failed to get FB data")
+                                    return
+                                }
+                                print("data returned from FB")
+                                let filename = chatUser.profilePictureFileName
+                                StorageManager.shared.uploadProfilePic(with: data, fileName: filename, completionHandler: {result in
+                                    switch result {
+                                    case .success(let downloadUrl):
+                                        print(downloadUrl)
+                                        UserDefaults.standard.set(downloadUrl, forKey: "profile_picture_url")
+                                    case .failure(let error):
+                                        print("Storage Manager Error \(error)")
+                                        
+                                    }
+                                })
+                            }).resume()
                         }
                     })
                 }
             })
-        })
         
         let crediental = FacebookAuthProvider.credential(withAccessToken: token)
         
@@ -259,7 +279,7 @@ extension LoginViewController: LoginButtonDelegate {
             
         })
         
-        
+        })
         
     }
     
