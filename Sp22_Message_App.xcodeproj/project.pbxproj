@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B3F599127FE68670047AB45 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 2B3F599027FE68670047AB45 /* FirebaseStorage */; };
+		2B3F599327FE68C10047AB45 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3F599227FE68C10047AB45 /* StorageManager.swift */; };
 		2B50205B27FDD0E30029BDAD /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2B50205A27FDD0E30029BDAD /* MessageKit */; };
 		2B50205E27FDD0FD0029BDAD /* JGProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 2B50205D27FDD0FD0029BDAD /* JGProgressHUD */; };
 		2B9A787327FB525F00080B17 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9A787227FB525F00080B17 /* AppDelegate.swift */; };
@@ -40,6 +42,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2B3F599227FE68C10047AB45 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		2B9A786F27FB525F00080B17 /* Sp22_Message_App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sp22_Message_App.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B9A787227FB525F00080B17 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2B9A787427FB525F00080B17 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -75,6 +78,7 @@
 				2BB6DBD327FE324600136A36 /* GoogleSignIn in Frameworks */,
 				2BCB9FC127FCE943000299DC /* GoogleSignIn in Frameworks */,
 				2B50205B27FDD0E30029BDAD /* MessageKit in Frameworks */,
+				2B3F599127FE68670047AB45 /* FirebaseStorage in Frameworks */,
 				2BB6DBCA27FDD32E00136A36 /* SDWebImageMapKit in Frameworks */,
 				2BA7F18627FB8B6000E65F7A /* FirebaseAuth in Frameworks */,
 				2BB6DBC327FDD2EB00136A36 /* Realm in Frameworks */,
@@ -85,6 +89,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2B3F598F27FE68670047AB45 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		2B9A786627FB525F00080B17 = {
 			isa = PBXGroup;
 			children = (
@@ -95,6 +106,7 @@
 				2B9A788727FB537500080B17 /* Views */,
 				2B9A788627FB536E00080B17 /* Controllers */,
 				2B9A787027FB525F00080B17 /* Products */,
+				2B3F598F27FE68670047AB45 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -152,6 +164,7 @@
 				2B9A787227FB525F00080B17 /* AppDelegate.swift */,
 				2B9A787427FB525F00080B17 /* SceneDelegate.swift */,
 				2B9A789927FB608200080B17 /* Ext.swift */,
+				2B3F599227FE68C10047AB45 /* StorageManager.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -212,6 +225,7 @@
 				2BB6DBC727FDD32E00136A36 /* SDWebImage */,
 				2BB6DBC927FDD32E00136A36 /* SDWebImageMapKit */,
 				2BB6DBD227FE324600136A36 /* GoogleSignIn */,
+				2B3F599027FE68670047AB45 /* FirebaseStorage */,
 			);
 			productName = Sp22_Message_App;
 			productReference = 2B9A786F27FB525F00080B17 /* Sp22_Message_App.app */;
@@ -293,6 +307,7 @@
 				2B9A789727FB558F00080B17 /* ProfileViewController.swift in Sources */,
 				2B9A787527FB525F00080B17 /* SceneDelegate.swift in Sources */,
 				2B9A789527FB556700080B17 /* BeginConversationViewController.swift in Sources */,
+				2B3F599327FE68C10047AB45 /* StorageManager.swift in Sources */,
 				2BB6DBCC27FDD71200136A36 /* ChatViewController.swift in Sources */,
 				2B9A789A27FB608200080B17 /* Ext.swift in Sources */,
 			);
@@ -603,6 +618,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		2B3F599027FE68670047AB45 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2BA7F18427FB8B6000E65F7A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
 		2B50205A27FDD0E30029BDAD /* MessageKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2B50205927FDD0E30029BDAD /* XCRemoteSwiftPackageReference "MessageKit" */;

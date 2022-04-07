@@ -34,10 +34,17 @@ extension DatabaseManager{
     
     /// Insert New User To Database
     
-    public func insertUser(with user: ChatAppUser) {
+    public func insertUser(with user: ChatAppUser, completion: @escaping (Bool) -> Void) {
         database.child(user.safeEmail).setValue([
             "first_name": user.firstName,
-            "last_name": user.lastName])
+            "last_name": user.lastName], withCompletionBlock: {error, _ in
+                guard error == nil else{
+                    print("failed to write to DB")
+                    completion(false)
+                    return
+                }
+                completion(true)
+            })
     }
     
     struct ChatAppUser{
