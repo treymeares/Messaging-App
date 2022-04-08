@@ -42,10 +42,22 @@ class ConversationsViewController: UIViewController {
     
     @objc private func didTapCOmposeButton() {
         let vc = BeginConversationViewController()
+        vc.completion = {[weak self] result in
+            print("\(result)")
+            self?.createNewConversation(result:result)
+        }
         let navVC = UINavigationController(rootViewController: vc)
         present(navVC, animated: true)
-        
-        
+    }
+    
+    private func createNewConversation(result: [String:String]){
+        guard let name = result["name"], let email = result["email"] else {
+            return
+        }
+        let vc = ChatViewController(with: email)
+        vc.title = name
+        vc.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     override func viewDidAppear(_ animated: Bool) {
